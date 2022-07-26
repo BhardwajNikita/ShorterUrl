@@ -1,0 +1,18 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Links</h1>
+
+<div id="links">
+  <% @links.each do |link| %>
+    <p><strong><%= link.url %></strong></p>
+    <p><strong><%= link_to(show_url(link.slug), show_url(link.slug)) %></strong></p>
+    <br/>
+    <p><strong>Total Click</strong>: <%= link.tracks.count %></p>
+    <% countries = link.tracks.pluck(:country).compact %>
+    <% top_counties = countries.tally.sort_by { |_,count| -count }.map(&:first).compact.uniq %>
+    <p><strong>Top Countries</strong>: <%= top_counties.first(3).join(", ") %></p>
+    <hr/>
+  <% end %>
+</div>
+
+<%= link_to "New link", new_link_path %>
